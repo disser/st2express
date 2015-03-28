@@ -1,8 +1,13 @@
+# Information about a test account which used by st2_deploy
+TEST_ACCOUNT_USERNAME="testu"
+TEST_ACCOUNT_PASSWORD="testp"
+
 echo "========= Verifying St2 ========="
 sleep 10
 st2ctl status
 echo "========== Test Action =========="
-st2 run core.local hostname
+TOKEN=`st2 auth ${TEST_ACCOUNT_USERNAME} -p ${TEST_ACCOUNT_PASSWORD} | grep token | awk '{print $4}'`
+ST2_AUTH_TOKEN=${TOKEN} st2 run core.local date
 ACTIONEXIT=$?
 
 echo "=============================="
